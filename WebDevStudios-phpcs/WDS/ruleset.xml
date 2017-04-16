@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress">
+	<description>WebDevStudios Coding Custo, Standards</description>
+	<rule ref="WDS.Commenting.FileComment" />
+</ruleset>
