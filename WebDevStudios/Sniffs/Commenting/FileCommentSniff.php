@@ -162,7 +162,12 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 		$tokens = $phpcs_file->getTokens();
 		$class = get_class( $this );
 
-		if ( stristr( $class, 'Commenting_FileCommentSniff' ) ) {
+		// Set the default doc_block.
+		$doc_block = str_ireplace( 'WebDevStudios_Sniffs_Commenting_', '', $class ); // Clear out the base.
+		$doc_block = strtolower( str_ireplace( 'Sniff', '', $doc_block ) ); // Clear out the sniff.
+		$doc_block = strtolower( str_ireplace( 'comment', '', $doc_block ) ); // clear out the comment if any.
+
+		if ( 'file' === $doc_block ) {
 
 			// This is a file comment, process this with different tags.
 			$this->tags = array(
@@ -170,11 +175,6 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 				'@package' => true, // @package required as well.
 			);
 		}
-
-		// Set the default doc_block.
-		$doc_block = str_ireplace( 'WebDevStudios_Sniffs_Commenting_', '', $class ); // Clear out the base.
-		$doc_block = strtolower( str_ireplace( 'Sniff', '', $doc_block ) ); // Clear out the sniff.
-		$doc_block = strtolower( str_ireplace( 'comment', '', $doc_block ) ); // clear out the comment if any.
 
 		$comment_end = $tokens[ $comment_start ]['comment_closer'];
 		$found_tags  = array();
