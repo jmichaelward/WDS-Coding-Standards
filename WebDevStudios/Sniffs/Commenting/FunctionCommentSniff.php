@@ -106,7 +106,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file    The file being scanned.
 	 * @param int                  $stack_ptr     The position of the current token
-	 *                                           in the stack passed in $tokens.
+	 *                                            in the stack passed in $tokens.
 	 * @param int                  $comment_start The position in the stack where the comment started.
 	 *
 	 * @return void
@@ -137,9 +137,9 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 		}
 
 		if ( null !== $return ) {
-			$content = $tokens[ ($return + 2) ]['content'];
+			$content = $tokens[ ( $return + 2 ) ]['content'];
 
-			if ( true === empty( $content ) || T_DOC_COMMENT_STRING !== $tokens[ ($return + 2) ]['code'] ) {
+			if ( true === empty( $content ) || T_DOC_COMMENT_STRING !== $tokens[ ( $return + 2 ) ]['code'] ) {
 				$error = 'Return type missing for @return tag in function comment';
 				$phpcs_file->addError( $error, $return, 'MissingReturnType' );
 			}
