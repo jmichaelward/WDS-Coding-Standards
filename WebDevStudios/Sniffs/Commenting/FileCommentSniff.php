@@ -2,6 +2,7 @@
 /**
  * Parses and verifies the doc comments for files.
  *
+ * @since  1.1.0
  * @category Commands
  * @package  PHP_CodeSniffer
  */
@@ -19,6 +20,8 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	/**
 	 * Tags in correct order and related info.
 	 *
+	 * By default, these are used, but may change depending on the comment type.
+	 *
 	 * @var array(string => bool)
 	 */
 	public $tags = array(
@@ -35,9 +38,10 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	 * @return array
 	 */
 	public function register() {
-		return array( T_OPEN_TAG );
-	}//end register()
-
+		return array(
+			T_OPEN_TAG,
+		);
+	}
 
 	/**
 	 * Processes this test, when one of its tokens is encountered.
@@ -47,7 +51,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file The file being scanned.
 	 * @param int                  $stack_ptr  The position of the current token
-	 *                                        in the stack passed in $tokens.
+	 *                                         in the stack passed in $tokens.
 	 *
 	 * @return int
 	 */
@@ -81,20 +85,25 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 
 			// We are only interested if this is the first open tag.
 			return ( $phpcs_file->num_tokens + 1 );
+
 		} elseif ( T_COMMENT === $tokens[ $comment_start ]['code'] ) {
+
 			$error = 'You must use "/**" style comments for a file comment';
 			$phpcs_file->addError( $error, $error_token, 'WrongStyle' );
 			$phpcs_file->recordMetric( $stack_ptr, 'File has doc comment', 'yes' );
-			return ($phpcs_file->num_tokens + 1);
+			return ( $phpcs_file->num_tokens + 1 );
+
 		} elseif ( false === $comment_start || T_DOC_COMMENT_OPEN_TAG !== $tokens[ $comment_start ]['code'] ) {
+
 			$phpcs_file->addError( 'Missing file doc comment', $error_token, 'Missing' );
 			$phpcs_file->recordMetric( $stack_ptr, 'File has doc comment', 'no' );
-			return ($phpcs_file->num_tokens + 1);
+			return ( $phpcs_file->num_tokens + 1 );
 		}
 
 		$comment_end = $tokens[ $comment_start ]['comment_closer'];
-		$next_token  = $phpcs_file->findNext( T_WHITESPACE, ($comment_end + 1), null, true );
-		$ignore      = array(
+		$next_token  = $phpcs_file->findNext( T_WHITESPACE, ( $comment_end + 1 ), null, true );
+
+		$ignore = array(
 			T_CLASS,
 			T_INTERFACE,
 			T_TRAIT,
@@ -113,7 +122,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 		if ( true === in_array( $tokens[ $next_token ]['code'], $ignore, true ) ) {
 			$phpcs_file->addError( 'Missing file doc comment', $stack_ptr, 'Missing' );
 			$phpcs_file->recordMetric( $stack_ptr, 'File has doc comment', 'no' );
-			return ($phpcs_file->num_tokens + 1);
+			return ( $phpcs_file->num_tokens + 1 );
 		}
 
 		$phpcs_file->recordMetric( $stack_ptr, 'File has doc comment', 'yes' );
@@ -133,9 +142,8 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 		$this->processTags( $phpcs_file, $stack_ptr, $comment_start );
 
 		// Ignore the rest of the file.
-		return ($phpcs_file->num_tokens + 1);
-	}//end process()
-
+		return ( $phpcs_file->num_tokens + 1 );
+	}
 
 	/**
 	 * Processes each required or optional tag.
@@ -148,17 +156,25 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	 *                                           in the stack passed in $tokens.
 	 * @param int                  $comment_start Position in the stack where the comment started.
 	 *
-	 * @return void
+	 * @return mixed               Early exit if we process the file comment instead.
 	 */
 	protected function processTags( PHP_CodeSniffer_File $phpcs_file, $stack_ptr, $comment_start ) {
+		$tokens = $phpcs_file->getTokens();
+		$class = get_class( $this );
 
-		$tokens     = $phpcs_file->getTokens();
+		if ( stristr( $class, 'Commenting_FileCommentSniff' ) ) {
 
-		if ( get_class( $this ) === 'PEAR_Sniffs_Commenting_FileCommentSniff' ) {
-			$doc_block = 'file';
-		} else {
-			$doc_block = 'class';
+			// This is a file comment, process this with different tags.
+			$this->tags = array(
+				'@since'   => true, // @since required on file comment.
+				'@package' => true, // @package required as well.
+			);
 		}
+
+		// Set the default doc_block.
+		$doc_block = str_ireplace( 'WebDevStudios_Sniffs_Commenting_', '', $class ); // Clear out the base.
+		$doc_block = strtolower( str_ireplace( 'Sniff', '', $doc_block ) ); // Clear out the sniff.
+		$doc_block = strtolower( str_ireplace( 'comment', '', $doc_block ) ); // clear out the comment if any.
 
 		$comment_end = $tokens[ $comment_start ]['comment_closer'];
 		$found_tags  = array();
@@ -199,6 +215,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 			} else {
 				$method = 'process' . substr( $tag, 1 );
 				if ( method_exists( $this, $method ) === true ) {
+
 					// Process each tag if a method is defined.
 					call_user_func( array( $this, $method ), $phpcs_file, $tag_tokens[ $tag ] );
 				}
@@ -211,7 +228,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 			if ( $found_tags[ $pos ] !== $tag ) {
 				$error = 'The tag in position %s should be the %s tag';
 				$data  = array(
-					($pos + 1),
+					( $pos + 1 ),
 					$tag,
 				);
 				$phpcs_file->addError( $error, $tokens[ $comment_start ]['comment_tags'][ $pos ], ucfirst( substr( $tag, 1 ) ) . 'TagOrder', $data );
@@ -223,7 +240,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 				$pos++;
 			}
 		} // End foreach().
-	}//end processTags()
+	}
 
 	/**
 	 * Process the author tag(s) that this header comment has.
@@ -233,21 +250,22 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file The file being scanned.
 	 * @param array                $tags       The tokens for these tags.
-	 *
-	 * @return void
 	 */
 	protected function processAuthor( PHP_CodeSniffer_File $phpcs_file, array $tags ) {
 		$tokens = $phpcs_file->getTokens();
+
 		foreach ( $tags as $tag ) {
-			if ( T_DOC_COMMENT_STRING !== $tokens[ ($tag + 2) ]['code'] ) {
+			if ( T_DOC_COMMENT_STRING !== $tokens[ ( $tag + 2 ) ]['code'] ) {
+
 				// No content.
 				continue;
 			}
 
-			$content = $tokens[ ($tag + 2) ]['content'];
+			$content = $tokens[ ( $tag + 2 ) ]['content'];
 			$local   = '\da-zA-Z-_+';
+
 			// Dot character cannot be the first or last character in the local-part.
 			$local_middle = $local . '.\w';
 		}
-	}//end processAuthor()
-}//end class
+	}
+}

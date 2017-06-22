@@ -2,6 +2,7 @@
 /**
  * Parses and verifies the doc comments for functions.
  *
+ * @since  1.1.0
  * @category Commands
  * @package  PHP_CodeSniffer
  */
@@ -25,13 +26,15 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	 * @return array
 	 */
 	public function register() {
-		return array( T_FUNCTION );
-	}//end register()
+		return array(
+			T_FUNCTION,
+		);
+	}
 
 	/**
 	 * Processes this test, when one of its tokens is encountered.
 	 *
-	 * @author  Jason Witt
+	 * @author Jason Witt
 	 * @since  1.1.0
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file The file being scanned.
@@ -93,7 +96,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 
 		// Check each tag.
 		$this->processTags( $phpcs_file, $stack_ptr, $tokens[ $comment_end ]['comment_opener'] );
-	}//end process()
+	}
 
 	/**
 	 * Process the return comment of this function comment.
@@ -116,6 +119,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 		$is_special_method = ( '__construct' === $method_name || '__destruct' === $method_name );
 
 		$return = null;
+
 		foreach ( $tokens[ $comment_start ]['comment_tags'] as $tag ) {
 			if ( '@return' === $tokens[ $tag ]['content'] ) {
 				if ( null !== $return ) {
@@ -134,6 +138,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 
 		if ( null !== $return ) {
 			$content = $tokens[ ($return + 2) ]['content'];
+
 			if ( true === empty( $content ) || T_DOC_COMMENT_STRING !== $tokens[ ($return + 2) ]['code'] ) {
 				$error = 'Return type missing for @return tag in function comment';
 				$phpcs_file->addError( $error, $return, 'MissingReturnType' );
@@ -142,5 +147,5 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 			$error = 'Missing @return tag in function comment';
 			$phpcs_file->addError( $error, $tokens[ $comment_start ]['comment_closer'], 'MissingReturn' );
 		} // End if().
-	}//end processReturn()
-}//end class
+	}
+}

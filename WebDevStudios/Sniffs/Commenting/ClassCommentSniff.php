@@ -3,6 +3,8 @@
  * Parses and verifies the doc comments for classes.
  *
  * @category Commands
+ * @since 1.1.0
+ *
  * @package  PHP_CodeSniffer
  */
 
@@ -29,8 +31,7 @@ class WebDevStudios_Sniffs_Commenting_ClassCommentSniff extends WebDevStudios_Sn
 			T_CLASS,
 			T_INTERFACE,
 		);
-
-	}//end register()
+	}
 
 	/**
 	 * Processes this test, when one of its tokens is encountered.
@@ -68,5 +69,5 @@ class WebDevStudios_Sniffs_Commenting_ClassCommentSniff extends WebDevStudios_Sn
 
 		// Check each tag.
 		$this->processTags( $phpcs_file, $stack_ptr, $tokens[ $comment_end ]['comment_opener'] );
-	}//end process()
-}//end class
+	}
+}
