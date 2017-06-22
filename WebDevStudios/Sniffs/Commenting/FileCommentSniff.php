@@ -2,8 +2,6 @@
 /**
  * Parses and verifies the doc comments for files.
  *
- * @author   WebDevStudios
- * @since    1.0.0
  * @category Commands
  * @package  PHP_CodeSniffer
  */
@@ -31,15 +29,21 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	/**
 	 * Returns an array of tokens this test wants to listen for.
 	 *
+	 * @author Jason Witt
+	 * @since  1.1.0
+	 *
 	 * @return array
 	 */
 	public function register() {
 		return array( T_OPEN_TAG );
-	} //end register()
+	}//end register()
 
 
 	/**
 	 * Processes this test, when one of its tokens is encountered.
+	 *
+	 * @author  Jason Witt
+	 * @since   1.0.0
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file The file being scanned.
 	 * @param int                  $stack_ptr  The position of the current token
@@ -106,7 +110,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 			T_PROPERTY,
 		);
 
-		if ( true === in_array( $tokens[ $next_token ]['code'], $ignore ) ) {
+		if ( true === in_array( $tokens[ $next_token ]['code'], $ignore, true ) ) {
 			$phpcs_file->addError( 'Missing file doc comment', $stack_ptr, 'Missing' );
 			$phpcs_file->recordMetric( $stack_ptr, 'File has doc comment', 'no' );
 			return ($phpcs_file->num_tokens + 1);
@@ -130,11 +134,14 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 
 		// Ignore the rest of the file.
 		return ($phpcs_file->num_tokens + 1);
-	} //end process()
+	}//end process()
 
 
 	/**
 	 * Processes each required or optional tag.
+	 *
+	 * @author  Jason Witt
+	 * @since   1.1.0
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file    The file being scanned.
 	 * @param int                  $stack_ptr     The position of the current token
@@ -174,7 +181,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 				$phpcs_file->addError( $error, $tag, 'Empty' . ucfirst( substr( $name, 1 ) ) . 'Tag', $data );
 				continue;
 			}
-		} //end foreach
+		} // End foreach().
 
 		// Check if the tags are in the correct position.
 		$pos = 0;
@@ -215,11 +222,14 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 			while ( isset( $found_tags[ $pos ] ) === true && $found_tags[ $pos ] === $tag ) {
 				$pos++;
 			}
-		} //end foreach
-	} //end processTags()
+		} // End foreach().
+	}//end processTags()
 
 	/**
 	 * Process the author tag(s) that this header comment has.
+	 *
+	 * @author Jason Witt
+	 * @since  1.0.0
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file The file being scanned.
 	 * @param array                $tags       The tokens for these tags.
@@ -239,5 +249,5 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 			// Dot character cannot be the first or last character in the local-part.
 			$local_middle = $local . '.\w';
 		}
-	} //end processAuthor()
-} //end class
+	}//end processAuthor()
+}//end class

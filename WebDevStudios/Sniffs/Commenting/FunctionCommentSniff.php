@@ -2,8 +2,6 @@
 /**
  * Parses and verifies the doc comments for functions.
  *
- * @author   WebDevStudios
- * @since    1.0.0
  * @category Commands
  * @package  PHP_CodeSniffer
  */
@@ -21,6 +19,9 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	/**
 	 * Returns an array of tokens this test wants to listen for.
 	 *
+	 * @author  Jason Witt
+	 * @since  1.1.0
+	 *
 	 * @return array
 	 */
 	public function register() {
@@ -29,6 +30,9 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 
 	/**
 	 * Processes this test, when one of its tokens is encountered.
+	 *
+	 * @author  Jason Witt
+	 * @since  1.1.0
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file The file being scanned.
 	 * @param int                  $stack_ptr  The position of the current token
@@ -94,6 +98,9 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	/**
 	 * Process the return comment of this function comment.
 	 *
+	 * @author  Jason Witt
+	 * @since  1.1.0
+	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file    The file being scanned.
 	 * @param int                  $stack_ptr     The position of the current token
 	 *                                           in the stack passed in $tokens.
@@ -134,8 +141,6 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 		} else {
 			$error = 'Missing @return tag in function comment';
 			$phpcs_file->addError( $error, $tokens[ $comment_start ]['comment_closer'], 'MissingReturn' );
-		}//end if
+		} // End if().
 	}//end processReturn()
-
-
 }//end class

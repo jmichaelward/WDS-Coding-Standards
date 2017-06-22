@@ -2,8 +2,6 @@
 /**
  * Parses and verifies the doc comments for classes.
  *
- * @author   WebDevStudios
- * @since    1.0.0
  * @category Commands
  * @package  PHP_CodeSniffer
  */
@@ -20,6 +18,9 @@ class WebDevStudios_Sniffs_Commenting_ClassCommentSniff extends WebDevStudios_Sn
 
 	/**
 	 * Returns an array of tokens this test wants to listen for.
+	 *
+	 * @author Jason Witt
+	 * @since  1.1.0
 	 *
 	 * @return array
 	 */
@@ -39,9 +40,10 @@ class WebDevStudios_Sniffs_Commenting_ClassCommentSniff extends WebDevStudios_Sn
 	 *                                         in the stack passed in $tokens.
 	 *
 	 * @return void
+	 * @author Jason Witt
+	 * @since  1.1.0
 	 */
 	public function process( PHP_CodeSniffer_File $phpcs_file, $stack_ptr ) {
-
 		$tokens     = $phpcs_file->getTokens();
 		$type       = strtolower( $tokens[ $stack_ptr ]['content'] );
 		$error_data = array( $type );
