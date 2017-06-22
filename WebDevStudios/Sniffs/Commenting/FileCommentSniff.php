@@ -16,7 +16,6 @@
  * @category Commands
  * @package  PHP_CodeSniffer
  */
-
 class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff {
 
 	/**
@@ -36,7 +35,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	 */
 	public function register() {
 		return array( T_OPEN_TAG );
-	}//end register()
+	} //end register()
 
 
 	/**
@@ -78,12 +77,12 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 
 			// We are only interested if this is the first open tag.
 			return ( $phpcs_file->num_tokens + 1 );
-		} else if ( T_COMMENT === $tokens[ $comment_start ]['code'] ) {
+		} elseif ( T_COMMENT === $tokens[ $comment_start ]['code'] ) {
 			$error = 'You must use "/**" style comments for a file comment';
 			$phpcs_file->addError( $error, $error_token, 'WrongStyle' );
 			$phpcs_file->recordMetric( $stack_ptr, 'File has doc comment', 'yes' );
 			return ($phpcs_file->num_tokens + 1);
-		} else if ( false === $comment_start || T_DOC_COMMENT_OPEN_TAG !== $tokens[ $comment_start ]['code'] ) {
+		} elseif ( false === $comment_start || T_DOC_COMMENT_OPEN_TAG !== $tokens[ $comment_start ]['code'] ) {
 			$phpcs_file->addError( 'Missing file doc comment', $error_token, 'Missing' );
 			$phpcs_file->recordMetric( $stack_ptr, 'File has doc comment', 'no' );
 			return ($phpcs_file->num_tokens + 1);
@@ -120,7 +119,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 		for ( $i = ($comment_start + 1); $i < $comment_end; $i++ ) {
 			if ( T_DOC_COMMENT_TAG === $tokens[ $i ]['code'] ) {
 				break;
-			} else if ( T_DOC_COMMENT_STRING === $tokens[ $i ]['code'] && strstr( strtolower( $tokens[ $i ]['content'] ), 'php version' ) !== false ) {
+			} elseif ( T_DOC_COMMENT_STRING === $tokens[ $i ]['code'] && strstr( strtolower( $tokens[ $i ]['content'] ), 'php version' ) !== false ) {
 				$found = true;
 				break;
 			}
@@ -131,7 +130,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 
 		// Ignore the rest of the file.
 		return ($phpcs_file->num_tokens + 1);
-	}//end process()
+	} //end process()
 
 
 	/**
@@ -175,7 +174,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 				$phpcs_file->addError( $error, $tag, 'Empty' . ucfirst( substr( $name, 1 ) ) . 'Tag', $data );
 				continue;
 			}
-		}//end foreach
+		} //end foreach
 
 		// Check if the tags are in the correct position.
 		$pos = 0;
@@ -216,8 +215,8 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 			while ( isset( $found_tags[ $pos ] ) === true && $found_tags[ $pos ] === $tag ) {
 				$pos++;
 			}
-		}//end foreach
-	}//end processTags()
+		} //end foreach
+	} //end processTags()
 
 	/**
 	 * Process the author tag(s) that this header comment has.
@@ -240,5 +239,5 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 			// Dot character cannot be the first or last character in the local-part.
 			$local_middle = $local . '.\w';
 		}
-	}//end processAuthor()
-}//end class
+	} //end processAuthor()
+} //end class
