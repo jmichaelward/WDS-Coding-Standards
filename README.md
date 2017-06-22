@@ -43,6 +43,8 @@ ____________________
 
 # Changelog
 
+## 1.1
+
 ## 1.0.1
 
 - Changed `WebDevStudios-phpcs` to just `WebDevStudios` for compatibility with namespaces and new sniffs added later [#12](https://github.com/WebDevStudios/WDS-Coding-Standards/pull/12)

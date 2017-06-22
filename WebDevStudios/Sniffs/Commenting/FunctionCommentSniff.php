@@ -16,7 +16,7 @@
  * @category Commands
  * @package  PHP_CodeSniffer
  */
-class WDS_Sniffs_Commenting_FunctionCommentSniff extends WDS_Sniffs_Commenting_FileCommentSniff {
+class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios_Sniffs_Commenting_FileCommentSniff {
 
 	/**
 	 * Returns an array of tokens this test wants to listen for.
@@ -25,7 +25,6 @@ class WDS_Sniffs_Commenting_FunctionCommentSniff extends WDS_Sniffs_Commenting_F
 	 */
 	public function register() {
 		return array( T_FUNCTION );
-
 	}//end register()
 
 	/**
@@ -138,5 +137,5 @@ class WDS_Sniffs_Commenting_FunctionCommentSniff extends WDS_Sniffs_Commenting_F
 		}//end if
 	}//end processReturn()
 
-	
+
 }//end class

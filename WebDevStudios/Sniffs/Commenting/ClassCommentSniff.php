@@ -16,7 +16,7 @@
  * @category Commands
  * @package  PHP_CodeSniffer
  */
-class WDS_Sniffs_Commenting_ClassCommentSniff extends WDS_Sniffs_Commenting_FileCommentSniff {
+class WebDevStudios_Sniffs_Commenting_ClassCommentSniff extends WebDevStudios_Sniffs_Commenting_FileCommentSniff {
 
 	/**
 	 * Returns an array of tokens this test wants to listen for.

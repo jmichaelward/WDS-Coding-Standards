@@ -17,7 +17,7 @@
  * @package  PHP_CodeSniffer
  */
 
-class WDS_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff {
+class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff {
 
 	/**
 	 * Tags in correct order and related info.

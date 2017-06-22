@@ -26,4 +26,8 @@
     <severity>0</severity>
   </rule>
 
+  <!-- Add rules for file commenting.-->
+  <rule ref="WebDevStudios.Commenting.FileComment" />
+  <rule ref="WebDevStudios.Commenting.ClassComment" />
+  <rule ref="WebDevStudios.Commenting.FunctionComment" />
 </ruleset>
