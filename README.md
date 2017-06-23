@@ -57,3 +57,24 @@ you will need to update your coding standard to `WebDevStudios` vs the old
 ## 1.0
 
 - Initial ruleset based on WordPress-Extra
+
+
+________________________________
+
+# Rules
+
+Below is documentation for most custom WDS rules. Not all are here, only those
+documented and enforced through the sniffs in this ruleset.
+
+## @return
+
+`@return` is required only if you have a `return` statement in your method or
+function, otherwise is should be omitted.
+
+## @since
+
+`@since` is required on all docblocks.
+
+## @author
+
+`@author` is required on all structural docblocks.
