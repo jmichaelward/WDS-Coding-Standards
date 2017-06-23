@@ -202,5 +202,12 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 			$phpcs_file->addError( $error, $tokens[ $comment_start ]['comment_closer'], 'MissingReturn' );
 			return;
 		}
+
+		if ( $at_return && ! $has_return ) {
+
+			// There is an @return, but no return; in the statement.
+			$error = '@return in docblock, but no return in function';
+			$phpcs_file->addError( $error, $tokens[ $comment_start ]['comment_closer'], 'ReturnDocButNoReturn' );
+		}
 	}
 }
