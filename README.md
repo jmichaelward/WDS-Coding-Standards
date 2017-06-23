@@ -45,6 +45,8 @@ ____________________
 
 ## 1.1
 
+- Rules for `@return` `@since` and `@author`, See #5 #6 #8 #4
+
 ## 1.0.1
 
 - Changed `WebDevStudios-phpcs` to just `WebDevStudios` for compatibility with namespaces and new sniffs added later [#12](https://github.com/WebDevStudios/WDS-Coding-Standards/pull/12)
@@ -57,7 +59,6 @@ you will need to update your coding standard to `WebDevStudios` vs the old
 ## 1.0
 
 - Initial ruleset based on WordPress-Extra
-
 
 ________________________________
 
