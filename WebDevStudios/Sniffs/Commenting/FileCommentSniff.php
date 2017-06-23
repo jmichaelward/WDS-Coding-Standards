@@ -11,7 +11,7 @@
  * Parses and verifies the doc comments for files.
  *
  * @author   WebDevStudios
- * @since    1.0.0
+ * @since    1.1.0
  * @category Commands
  * @package  PHP_CodeSniffer
  */
@@ -47,7 +47,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	 * Processes this test, when one of its tokens is encountered.
 	 *
 	 * @author  Jason Witt
-	 * @since   1.0.0
+	 * @since   1.1.0
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file The file being scanned.
 	 * @param int                  $stack_ptr  The position of the current token
@@ -246,7 +246,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	 * Process the author tag(s) that this header comment has.
 	 *
 	 * @author Jason Witt
-	 * @since  1.0.0
+	 * @since  1.1.0
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file The file being scanned.
 	 * @param array                $tags       The tokens for these tags.

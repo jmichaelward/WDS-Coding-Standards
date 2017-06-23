@@ -137,7 +137,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	/**
 	 * Process the return comment of this function comment.
 	 *
-	 * @author  Jason Witt
+	 * @author  Jason Witt, Aubrey Portwood
 	 * @since  1.1.0
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file    The file being scanned.
