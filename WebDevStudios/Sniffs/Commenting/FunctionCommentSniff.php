@@ -39,7 +39,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file The file being scanned.
 	 * @param int                  $stack_ptr  The position of the current token
-	 *                                        in the stack passed in $tokens.
+	 *                                         in the stack passed in $tokens.
 	 *
 	 * @return void
 	 */
@@ -51,6 +51,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 		$find[] = T_WHITESPACE;
 
 		$comment_end = $phpcs_file->findPrevious( $find, ( $stack_ptr - 1 ), null, true );
+
 		if ( T_COMMENT === $tokens[ $comment_end ]['code'] ) {
 			// Inline comments might just be closing comments for
 			// control structures or functions instead of function comments
@@ -92,10 +93,45 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 			}
 		}
 
-		$this->processReturn( $phpcs_file, $stack_ptr, $comment_start );
+		$this->processReturn( $phpcs_file, $stack_ptr, $comment_start, $comment_end );
 
 		// Check each tag.
 		$this->processTags( $phpcs_file, $stack_ptr, $tokens[ $comment_end ]['comment_opener'] );
+	}
+
+	/**
+	 * Does a section of code have a return statement?
+	 *
+	 * @author Aubrey Portwood
+	 * @since  1.1.0
+	 *
+	 * @param PHP_CodeSniffer_File $phpcs_file    The file being scanned.
+	 * @param int                  $start         The position of the start of the statement.
+	 * @param int                  $end           The position of the end of the statement.
+	 * @param array                $tokens        The tokens.
+	 *
+	 * @return  boolean True if there is a return statement.
+	 */
+	protected function has_return( $phpcs_file, $start, $end, $tokens ) {
+
+		// Find where a return is in between where the method starts and ends.
+		$return = $phpcs_file->findNext( array( T_RETURN ), $start, $end );
+
+		// Is this thing a return statement?
+		$is_t_return = 'T_RETURN' === $tokens[ $return ]['type'];
+
+		// Is it within the scope of the start and end?
+		$before_end = $tokens[ $return ]['line'] < $tokens[ $end ]['line'];
+
+		// If $return is indeed is a return, and it's before the end of the method, we have a return statement.
+		if ( $is_t_return && $before_end ) {
+
+			// We found a return in the statement.
+			return true;
+		}
+
+		// We didn't find a return in the statement.
+		return false;
 	}
 
 	/**
@@ -108,17 +144,17 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	 * @param int                  $stack_ptr     The position of the current token
 	 *                                            in the stack passed in $tokens.
 	 * @param int                  $comment_start The position in the stack where the comment started.
+	 * @param int                  $comment_end   The position in the stack where the comment ends.
 	 *
 	 * @return void
 	 */
-	protected function processReturn( PHP_CodeSniffer_File $phpcs_file, $stack_ptr, $comment_start ) {
+	protected function processReturn( PHP_CodeSniffer_File $phpcs_file, $stack_ptr, $comment_start, $comment_end ) {
 		$tokens = $phpcs_file->getTokens();
 
 		// Skip constructor and destructor.
 		$method_name       = $phpcs_file->getDeclarationName( $stack_ptr );
 		$is_special_method = ( '__construct' === $method_name || '__destruct' === $method_name );
-
-		$return = null;
+		$return            = null;
 
 		foreach ( $tokens[ $comment_start ]['comment_tags'] as $tag ) {
 			if ( '@return' === $tokens[ $tag ]['content'] ) {
@@ -136,16 +172,35 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 			return;
 		}
 
-		if ( null !== $return ) {
-			$content = $tokens[ ( $return + 2 ) ]['content'];
+		// There is an @return, what is it's content?
+		$content = $tokens[ ( $return + 2 ) ]['content'];
 
-			if ( true === empty( $content ) || T_DOC_COMMENT_STRING !== $tokens[ ( $return + 2 ) ]['code'] ) {
-				$error = 'Return type missing for @return tag in function comment';
-				$phpcs_file->addError( $error, $return, 'MissingReturnType' );
-			}
-		} else {
+		// Does the @return have empty content?
+		$empty_content = ( true === empty( $content ) || T_DOC_COMMENT_STRING !== $tokens[ ( $return + 2 ) ]['code'] );
+
+		// Is there an @return?
+		$at_return = null !== $return;
+
+		if ( $at_return && $empty_content ) {
+
+			// You have an @return, but it has empty content.
+			$error = 'Return type missing for @return tag in function comment';
+			$phpcs_file->addError( $error, $return, 'MissingReturnType' );
+			return; // Bail here.
+		}
+
+		// Where is the end of the statement.
+		$method_end  = $phpcs_file->findEndOfStatement( $comment_end + 2 );
+
+		// Does this statement have a return?
+		$has_return = $this->has_return( $phpcs_file, $comment_end + 2, $method_end, $tokens );
+
+		if ( ! $at_return && $has_return ) {
+
+			// No @return and there's a return statement in the method/function.
 			$error = 'Missing @return tag in function comment';
 			$phpcs_file->addError( $error, $tokens[ $comment_start ]['comment_closer'], 'MissingReturn' );
-		} // End if().
+			return;
+		}
 	}
 }
