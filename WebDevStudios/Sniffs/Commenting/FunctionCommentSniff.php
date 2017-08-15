@@ -10,7 +10,10 @@
 /**
  * Parses and verifies the doc comments for functions.
  *
- * @author   WebDevStudios
+ * A @return is required only if you have a `return` statement in your method or function, otherwise is should be omitted.
+ * A @since is required on all docblocks.
+ * A @author is required on all structural docblocks.
+ *
  * @since    1.0.0
  * @category Commands
  * @package  PHP_CodeSniffer
