@@ -204,7 +204,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 		foreach ( $this->tags as $tag => $tag_data ) {
 			if ( isset( $tag_tokens[ $tag ] ) === false ) {
 				if ( true === $tag_data ) {
-					$error = 'Missing %s tag in %s comment';
+					$error = 'Missing %s tag in %s docblock comment';
 					$data  = array(
 						$tag,
 						$doc_block,
