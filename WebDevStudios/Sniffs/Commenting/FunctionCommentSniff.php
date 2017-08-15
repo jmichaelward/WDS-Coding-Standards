@@ -190,7 +190,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 		}
 
 		// Where is the end of the statement.
-		$method_end  = $phpcs_file->findEndOfStatement( $comment_end + 2 );
+		$method_end = $tokens[ $stack_ptr ]['scope_closer'];
 
 		// Does this statement have a return?
 		$has_return = $this->has_return( $phpcs_file, $comment_end + 2, $method_end, $tokens );
