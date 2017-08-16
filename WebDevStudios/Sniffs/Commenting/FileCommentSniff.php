@@ -226,15 +226,6 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 				break;
 			}
 
-			if ( $found_tags[ $pos ] !== $tag ) {
-				$error = 'The tag in position %s should be the %s tag';
-				$data  = array(
-					( $pos + 1 ),
-					$tag,
-				);
-				$phpcs_file->addError( $error, $tokens[ $comment_start ]['comment_tags'][ $pos ], ucfirst( substr( $tag, 1 ) ) . 'TagOrder', $data );
-			}
-
 			// Account for multiple tags.
 			$pos++;
 			while ( isset( $found_tags[ $pos ] ) === true && $found_tags[ $pos ] === $tag ) {
