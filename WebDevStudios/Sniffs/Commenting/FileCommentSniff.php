@@ -23,6 +23,8 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	 *
 	 * By default, these are used, but may change depending on the comment type.
 	 *
+	 * @since  1.1
+	 *
 	 * @var array(string => bool)
 	 */
 	public $tags = array(
@@ -32,8 +34,8 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	/**
 	 * Returns an array of tokens this test wants to listen for.
 	 *
-	 * @author Jason Witt
 	 * @since  1.1.0
+	 * @author Jason Witt
 	 *
 	 * @return array
 	 */
@@ -46,8 +48,8 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	/**
 	 * Processes this test, when one of its tokens is encountered.
 	 *
-	 * @author  Jason Witt
 	 * @since   1.1.0
+	 * @author  Jason Witt
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file The file being scanned.
 	 * @param int                  $stack_ptr  The position of the current token
