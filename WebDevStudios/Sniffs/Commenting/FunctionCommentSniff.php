@@ -10,7 +10,7 @@
  */
 
 /**
- * Parses and verifies the doc comments for functions.
+ * Parses and verifies the docblocks for functions.
  *
  * A @return is required only if you have a `return` statement in your method or function, otherwise is should be omitted.
  * A @since is required on all docblocks.
@@ -51,17 +51,12 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	public function process( PHP_CodeSniffer_File $phpcs_file, $stack_ptr ) {
 		$tokens = $phpcs_file->getTokens();
 
-		// @codingStandardsIgnoreLine
-		$find   = PHP_CodeSniffer_Tokens::$methodPrefixes;
+		$find   = PHP_CodeSniffer_Tokens::$methodPrefixes; // @codingStandardsIgnoreLine: camelCase okay here.
 		$find[] = T_WHITESPACE;
 
 		$comment_end = $phpcs_file->findPrevious( $find, ( $stack_ptr - 1 ), null, true );
 
 		if ( T_COMMENT === $tokens[ $comment_end ]['code'] ) {
-			// Inline comments might just be closing comments for
-			// control structures or functions instead of function comments
-			// using the wrong comment type. If there is other code on the line,
-			// assume they relate to that code.
 			$prev = $phpcs_file->findPrevious( $find, ($comment_end - 1), null, true );
 			if ( false !== $prev && $tokens[ $prev ]['line'] === $tokens[ $comment_end ]['line'] ) {
 				$comment_end = $prev;
@@ -69,20 +64,20 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 		}
 
 		if ( T_DOC_COMMENT_CLOSE_TAG !== $tokens[ $comment_end ]['code'] && T_COMMENT !== $tokens[ $comment_end ]['code'] ) {
-			$phpcs_file->addError( 'Missing function doc comment', $stack_ptr, 'Missing' );
-			$phpcs_file->recordMetric( $stack_ptr, 'Function has doc comment', 'no' );
+			$phpcs_file->addError( 'Missing function docblock', $stack_ptr, 'Missing' );
+			$phpcs_file->recordMetric( $stack_ptr, 'Function has docblock', 'no' );
 			return;
 		} else {
-			$phpcs_file->recordMetric( $stack_ptr, 'Function has doc comment', 'yes' );
+			$phpcs_file->recordMetric( $stack_ptr, 'Function has docblock', 'yes' );
 		}
 
 		if ( T_COMMENT === $tokens[ $comment_end ]['code'] ) {
-			$phpcs_file->addError( 'You must use "/**" style comments for a function comment', $stack_ptr, 'WrongStyle' );
+			$phpcs_file->addError( 'You must use "/**" style comments for a docblock', $stack_ptr, 'WrongStyle' );
 			return;
 		}
 
 		if ( ( $tokens[ $stack_ptr ]['line'] - 1 ) !== $tokens[ $comment_end ]['line'] ) {
-			$error = 'There must be no blank lines after the function comment';
+			$error = 'There must be no blank lines after the docblock';
 			$phpcs_file->addError( $error, $comment_end, 'SpacingAfter' );
 		}
 
@@ -92,7 +87,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 				// Make sure the tag isn't empty.
 				$string = $phpcs_file->findNext( T_DOC_COMMENT_STRING, $tag, $comment_end );
 				if ( false === $string || $tokens[ $string ]['line'] !== $tokens[ $tag ]['line'] ) {
-					$error = 'Content missing for @see tag in function comment';
+					$error = 'Content missing for @see tag in docblock';
 					$phpcs_file->addError( $error, $tag, 'EmptySees' );
 				}
 			}
@@ -140,7 +135,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	}
 
 	/**
-	 * Process the return comment of this function comment.
+	 * Process the return comment of this docblock.
 	 *
 	 * @since  1.1.0
 	 * @author  Jason Witt, Aubrey Portwood
@@ -164,7 +159,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 		foreach ( $tokens[ $comment_start ]['comment_tags'] as $tag ) {
 			if ( '@return' === $tokens[ $tag ]['content'] ) {
 				if ( null !== $return ) {
-					$error = 'Only 1 @return tag is allowed in a function comment';
+					$error = 'Only 1 @return tag is allowed in a docblock';
 					$phpcs_file->addError( $error, $tag, 'DuplicateReturn' );
 					return;
 				}
@@ -189,7 +184,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 		if ( $at_return && $empty_content ) {
 
 			// You have an @return, but it has empty content.
-			$error = 'Return type missing for @return tag in function comment';
+			$error = 'Return type missing for @return tag in docblock';
 			$phpcs_file->addError( $error, $return, 'MissingReturnType' );
 			return; // Bail here.
 		}
@@ -203,7 +198,7 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 		if ( ! $at_return && $has_return ) {
 
 			// No @return and there's a return statement in the method/function.
-			$error = 'Missing @return tag in function comment';
+			$error = 'Missing @return tag in docblock';
 			$phpcs_file->addError( $error, $tokens[ $comment_start ]['comment_closer'], 'MissingReturn' );
 			return;
 		}

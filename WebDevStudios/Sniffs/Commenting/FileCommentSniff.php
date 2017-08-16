@@ -190,7 +190,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 			$tag_tokens[ $name ][] = $tag;
 			$string = $phpcs_file->findNext( T_DOC_COMMENT_STRING, $tag, $comment_end );
 			if ( false === $string || $tokens[ $string ]['line'] !== $tokens[ $tag ]['line'] ) {
-				$error = 'Content missing for %s tag in %s comment';
+				$error = 'Content missing for %s tag in docblock';
 				$data  = array(
 					$name,
 					$doc_block,
@@ -205,7 +205,7 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 		foreach ( $this->tags as $tag => $tag_data ) {
 			if ( isset( $tag_tokens[ $tag ] ) === false ) {
 				if ( true === $tag_data ) {
-					$error = 'Missing %s tag in %s docblock comment';
+					$error = 'Missing %s tag in docblock';
 					$data  = array(
 						$tag,
 						$doc_block,
