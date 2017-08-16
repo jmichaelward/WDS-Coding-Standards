@@ -25,8 +25,8 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	/**
 	 * Returns an array of tokens this test wants to listen for.
 	 *
-	 * @author  Jason Witt
 	 * @since  1.1.0
+	 * @author  Jason Witt
 	 *
 	 * @return array
 	 */
@@ -39,8 +39,8 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	/**
 	 * Processes this test, when one of its tokens is encountered.
 	 *
-	 * @author Jason Witt
 	 * @since  1.1.0
+	 * @author Jason Witt
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file The file being scanned.
 	 * @param int                  $stack_ptr  The position of the current token
@@ -107,8 +107,8 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	/**
 	 * Does a section of code have a return statement?
 	 *
-	 * @author Aubrey Portwood
 	 * @since  1.1.0
+	 * @author Aubrey Portwood
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file    The file being scanned.
 	 * @param int                  $start         The position of the start of the statement.
@@ -142,8 +142,8 @@ class WebDevStudios_Sniffs_Commenting_FunctionCommentSniff extends WebDevStudios
 	/**
 	 * Process the return comment of this function comment.
 	 *
-	 * @author  Jason Witt, Aubrey Portwood
 	 * @since  1.1.0
+	 * @author  Jason Witt, Aubrey Portwood
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file    The file being scanned.
 	 * @param int                  $stack_ptr     The position of the current token

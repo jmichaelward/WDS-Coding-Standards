@@ -23,7 +23,8 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	 *
 	 * By default, these are used, but may change depending on the comment type.
 	 *
-	 * @since  1.1
+	 * @since  1.0
+	 * @author Jason Witt, Aubrey Portwood
 	 *
 	 * @var array(string => bool)
 	 */
@@ -150,8 +151,8 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	/**
 	 * Processes each required or optional tag.
 	 *
-	 * @author  Jason Witt, Aubrey Portwood
 	 * @since   1.1.0
+	 * @author  Jason Witt, Aubrey Portwood
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file    The file being scanned.
 	 * @param int                  $stack_ptr     The position of the current token
@@ -245,8 +246,8 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	/**
 	 * Process the author tag(s) that this header comment has.
 	 *
-	 * @author Jason Witt
 	 * @since  1.1.0
+	 * @author Jason Witt
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file The file being scanned.
 	 * @param array                $tags       The tokens for these tags.
