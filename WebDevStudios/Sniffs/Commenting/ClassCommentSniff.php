@@ -1,6 +1,8 @@
 <?php // @codingStandardsIgnoreLine: Class filename is ok.
 /**
- * Parses and verifies the doc comments for classes.
+ * Class specific rules:
+ *
+ * An @since tag is required on all structural and non-structural docblocks.
  *
  * @category Commands
  * @since 1.1.0

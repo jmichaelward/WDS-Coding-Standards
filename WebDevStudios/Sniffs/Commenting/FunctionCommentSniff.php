@@ -1,6 +1,8 @@
 <?php // @codingStandardsIgnoreLine: Class filename is ok.
 /**
- * Parses and verifies the doc comments for functions.
+ * Function specific rules:
+ *
+ * An @author tag is required on all non-structural docblocks.
  *
  * @since  1.1.0
  * @category Commands

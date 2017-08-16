@@ -1,8 +1,8 @@
 <?php // @codingStandardsIgnoreLine: Class filename is ok.
 /**
- * File and Class comments.
+ * File, function, and class rules (shared):
  *
- * An @since tag is required on all non-structural and structural documents.
+ * An @since tag is required on all non-structural and structural docblocks.
  *
  * @since  1.1.0
  * @category Commands
