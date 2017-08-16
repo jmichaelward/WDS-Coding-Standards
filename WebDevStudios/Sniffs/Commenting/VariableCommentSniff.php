@@ -58,7 +58,10 @@ class WebDevStudios_Sniffs_Commenting_VariableCommentSniff extends WebDevStudios
 		$find[] = T_WHITESPACE;
 		$comment_end = $phpcs_file->findPrevious( $find, ( $stack_ptr - 1 ), null, true );
 
-		// Class docblocks live by the same rules as the file docblock.
-		$this->processTags( $phpcs_file, $stack_ptr, $tokens[ $comment_end ]['comment_opener'] );
+		if ( isset( $tokens[ $comment_end ]['comment_opener'] ) ) {
+
+			// Class docblocks live by the same rules as the file docblock.
+			$this->processTags( $phpcs_file, $stack_ptr, $tokens[ $comment_end ]['comment_opener'] );
+		}
 	}
 }
