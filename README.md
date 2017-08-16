@@ -51,7 +51,7 @@ ____________________
 
 ## 1.1
 
-- Added WDS rules for `@return` `@since` and `@author`, See #5 #6 #8 #4
+- Added WDS rules for `@return` `@since` and `@author`
 
 ## 1.0.1
 
