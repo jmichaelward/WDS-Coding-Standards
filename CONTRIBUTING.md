@@ -17,6 +17,3 @@ Changes that introduce new rules require at least 5 votes/blessings. Two of them
 must be from a lead. Once a new rule has these 5 votes, add the `Approved Rule`
 label and it can be merged in immediately if it's been tested in the above
 editors.
-
-All rules must be documented properly in the `README.md` file so it's reasoning,
-discussions, etc can all be read about.
