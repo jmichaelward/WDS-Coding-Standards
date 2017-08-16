@@ -1,6 +1,8 @@
-<?php
+<?php // @codingStandardsIgnoreLine: Class filename is ok.
 /**
- * Parses and verifies the doc comments for files.
+ * File and Class comments.
+ *
+ * An @since tag is required on all non-structural and structural documents.
  *
  * @since  1.1.0
  * @category Commands
@@ -10,7 +12,6 @@
 /**
  * Parses and verifies the doc comments for files.
  *
- * @author   WebDevStudios
  * @since    1.1.0
  * @category Commands
  * @package  PHP_CodeSniffer
@@ -25,7 +26,6 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	 * @var array(string => bool)
 	 */
 	public $tags = array(
-		'@author' => true,
 		'@since'  => true,
 	);
 
@@ -148,15 +148,13 @@ class WebDevStudios_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffe
 	/**
 	 * Processes each required or optional tag.
 	 *
-	 * @author  Jason Witt
+	 * @author  Jason Witt, Aubrey Portwood
 	 * @since   1.1.0
 	 *
 	 * @param PHP_CodeSniffer_File $phpcs_file    The file being scanned.
 	 * @param int                  $stack_ptr     The position of the current token
-	 *                                           in the stack passed in $tokens.
+	 *                                            in the stack passed in $tokens.
 	 * @param int                  $comment_start Position in the stack where the comment started.
-	 *
-	 * @return mixed               Early exit if we process the file comment instead.
 	 */
 	protected function processTags( PHP_CodeSniffer_File $phpcs_file, $stack_ptr, $comment_start ) {
 		$tokens = $phpcs_file->getTokens();
